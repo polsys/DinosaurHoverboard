@@ -79,6 +79,7 @@ class Dinosaur extends GameObject {
 
         if (shouldDieNextUpdate && !dead) {
             dead = true;
+            engineOn = false;
             body.setType(BodyDef.BodyType.DynamicBody);
             body.setFixedRotation(false);
 
