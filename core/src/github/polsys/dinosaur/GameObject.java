@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * Base class for all game objects.
@@ -24,6 +25,13 @@ abstract class GameObject {
     public GameObject() {
         position = new Vector2(0, 0);
     }
+
+    /**
+     * Adds the object to the physics world.
+     *
+     * @param world The Box2D world.
+     */
+    public void addToWorld(World world) { }
 
     /**
      * Loads the assets for this object and performs other initialization.
