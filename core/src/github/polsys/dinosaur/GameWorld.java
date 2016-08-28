@@ -99,10 +99,12 @@ public class GameWorld {
 
     private void loadAssets(AssetManager assetManager) {
         this.assetManager = assetManager;
+        assetManager.load("Anvils.png", Texture.class);
         assetManager.load("Background.png", Texture.class);
         assetManager.load("Dinosaur.png", Texture.class);
         assetManager.load("Dinosaur_Jet.png", Texture.class);
         assetManager.load("Launchpad.png", Texture.class);
+        assetManager.load("Palm.png", Texture.class);
         assetManager.finishLoading();
     }
 
@@ -118,12 +120,26 @@ public class GameWorld {
         objects.add(launchpad);
 
         // Random obstacles
-        for (int i = 0; i < 20; i++) {
-            Launchpad obstacle = new Launchpad();
-            if (rand.nextBoolean())
-                obstacle.position = new Vector2(20 + i * 25 + (rand.nextFloat() * 4), 4);
-            else
-                obstacle.position = new Vector2(20 + i * 25 + (rand.nextFloat() * 4), VIEWPORT_HEIGHT - 4);
+        for (int i = 0; i < 25; i++) {
+            float x = 20 + i * 20 + (rand.nextFloat() * 4);
+            Obstacle obstacle = null;
+
+            switch (rand.nextInt(3)) {
+                case 0:
+                    obstacle = new Launchpad();
+                    obstacle.position = new Vector2(x, 4);
+                    break;
+                case 1:
+                    obstacle = new AnvilStack();
+                    obstacle.position = new Vector2(x, 3.5f);
+                    break;
+                case 2:
+                    obstacle = new PalmTree();
+                    obstacle.position = new Vector2(x, 5f);
+                    break;
+            }
+
+
             obstacle.load(assetManager);
             obstacle.addToWorld(world);
             objects.add(obstacle);
