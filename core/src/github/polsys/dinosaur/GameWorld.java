@@ -58,7 +58,6 @@ public class GameWorld {
     }
 
     public void dispose() {
-        assetManager.dispose();
         batch.dispose();
         background.dispose();
     }

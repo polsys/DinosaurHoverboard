@@ -24,6 +24,7 @@ public class DinosaurGame extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+	    assetManager.dispose();
         world.dispose();
     }
 }
