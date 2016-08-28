@@ -15,11 +15,11 @@ class Dinosaur extends GameObject {
 
     private static final float DINOSAUR_SIZE = 5f;
     public static final float DINOSAUR_BOUNDS_HALF_HEIGHT = DINOSAUR_SIZE / 2.4f;
-    public static final float DINOSAUR_BOUNDS_HALF_WIDTH = DINOSAUR_SIZE / 2.1f;
+    public static final float DINOSAUR_BOUNDS_HALF_WIDTH = DINOSAUR_SIZE / 2.3f;
     public static final int DINOSAUR_MASS = 2000;
     public static final float DINOSAUR_DENSITY = DINOSAUR_MASS / (DINOSAUR_SIZE * DINOSAUR_SIZE);
     public static final float MAX_VELOCITY_HORIZONTAL = 10f;
-    public static final float MAX_VELOCITY_VERTICAL = 3f;
+    public static final float MAX_VELOCITY_VERTICAL = 5f;
 
     private Sprite idleSprite;
     private Sprite jetSprite;
@@ -82,19 +82,19 @@ class Dinosaur extends GameObject {
 
             // Upwards thruster
             if (Gdx.input.isKeyPressed(Input.Keys.W) && (body.getLinearVelocity().y < MAX_VELOCITY_VERTICAL)) {
-                body.applyForceToCenter(0, 10000, true);
+                body.applyForceToCenter(0, 20000, true);
             }
 
             // Downwards thruster
             if (Gdx.input.isKeyPressed(Input.Keys.S) && (body.getLinearVelocity().y > -MAX_VELOCITY_VERTICAL)) {
-                body.applyForceToCenter(0, -10000, true);
+                body.applyForceToCenter(0, -20000, true);
             }
 
         }
         else {
             engineOn = false;
             if (body.getLinearVelocity().x > 0) {
-                body.applyForceToCenter(-1000, 0, true);
+                body.applyForceToCenter(-5000, 0, true);
             }
         }
 
