@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 public abstract class Obstacle extends GameObject {
 
     private Sprite sprite;
-    private Body body;
+    protected Body body;
 
     protected Vector2 getSize() { return Vector2.Zero; }
 
