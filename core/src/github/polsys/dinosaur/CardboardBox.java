@@ -22,6 +22,11 @@ public class CardboardBox extends Obstacle {
     }
 
     @Override
+    public boolean isLethal() {
+        return false;
+    }
+
+    @Override
     public void addToWorld(World world) {
         // Overridden because the boxes are dynamic bodies
 
@@ -30,6 +35,7 @@ public class CardboardBox extends Obstacle {
         bodyDef.position.set(position);
 
         body = world.createBody(bodyDef);
+        body.setUserData(this);
         body.setAwake(false); // Avoid initial jitter
 
         PolygonShape shape = new PolygonShape();

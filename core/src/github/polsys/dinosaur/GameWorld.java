@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -49,6 +50,31 @@ public class GameWorld {
 
         Box2D.init();
         world = new World(new Vector2(0, -9.8f), true);
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Object a = contact.getFixtureA().getBody().getUserData();
+                Object b = contact.getFixtureB().getBody().getUserData();
+
+                if (a == player) {
+                    if ((b != null) && ((Obstacle)b).isLethal())
+                        player.die();
+                }
+                else if (b == player) {
+                    if ((a != null) && ((Obstacle)a).isLethal())
+                        player.die();
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) { }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) { }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) { }
+        });
         debugRenderer = new Box2DDebugRenderer();
 
         player = new Dinosaur();
@@ -66,13 +92,16 @@ public class GameWorld {
     }
 
     public void update() {
+        // Physics
         world.step(1f / 60, 6, 2);
 
+        // Player and objects
         player.update();
         for (GameObject object : objects) {
             object.update();
         }
 
+        // Camera
         camera.position.set(player.position.x + 8, VIEWPORT_HEIGHT / 2, 0);
         camera.update();
     }

@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.Random;
+
 /**
  * THE DINOSAUR!!!
  */
@@ -24,8 +26,14 @@ class Dinosaur extends GameObject {
     private Sprite idleSprite;
     private Sprite jetSprite;
     private boolean engineOn;
+    private boolean shouldDieNextUpdate;
+    private boolean dead;
 
     private Body body;
+
+    public void die() {
+        shouldDieNextUpdate = true;
+    }
 
     @Override
     public Sprite getSprite() {
@@ -40,6 +48,7 @@ class Dinosaur extends GameObject {
         bodyDef.fixedRotation = true;
 
         body = world.createBody(bodyDef);
+        body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(DINOSAUR_BOUNDS_HALF_WIDTH, DINOSAUR_BOUNDS_HALF_HEIGHT);
@@ -68,33 +77,44 @@ class Dinosaur extends GameObject {
         position = body.getPosition();
         getSprite().setRotation(body.getAngle() * MathUtils.radiansToDegrees);
 
-        // Input
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            engineOn = true;
+        if (shouldDieNextUpdate && !dead) {
+            dead = true;
+            body.setType(BodyDef.BodyType.DynamicBody);
+            body.setFixedRotation(false);
 
-            // Keep the dino at (near-)constant altitude
-            body.applyForceToCenter(0, DINOSAUR_MASS * 7.5f, true);
-
-            // Horizontal acceleration
-            if (body.getLinearVelocity().x < MAX_VELOCITY_HORIZONTAL) {
-                body.applyForceToCenter(50000, 0, true);
-            }
-
-            // Upwards thruster
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && (body.getLinearVelocity().y < MAX_VELOCITY_VERTICAL)) {
-                body.applyForceToCenter(0, 20000, true);
-            }
-
-            // Downwards thruster
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && (body.getLinearVelocity().y > -MAX_VELOCITY_VERTICAL)) {
-                body.applyForceToCenter(0, -20000, true);
-            }
-
+            // Let's spin a bit :D
+            Random random = new Random();
+            body.applyAngularImpulse(40000 + (random.nextFloat() * 25000), true);
         }
-        else {
-            engineOn = false;
-            if (body.getLinearVelocity().x > 0) {
-                body.applyForceToCenter(-5000, 0, true);
+
+        if (!dead) {
+            // Input
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                engineOn = true;
+
+                // Keep the dino at (near-)constant altitude
+                body.applyForceToCenter(0, DINOSAUR_MASS * 7.5f, true);
+
+                // Horizontal acceleration
+                if (body.getLinearVelocity().x < MAX_VELOCITY_HORIZONTAL) {
+                    body.applyForceToCenter(50000, 0, true);
+                }
+
+                // Upwards thruster
+                if (Gdx.input.isKeyPressed(Input.Keys.W) && (body.getLinearVelocity().y < MAX_VELOCITY_VERTICAL)) {
+                    body.applyForceToCenter(0, 20000, true);
+                }
+
+                // Downwards thruster
+                if (Gdx.input.isKeyPressed(Input.Keys.S) && (body.getLinearVelocity().y > -MAX_VELOCITY_VERTICAL)) {
+                    body.applyForceToCenter(0, -20000, true);
+                }
+
+            } else {
+                engineOn = false;
+                if (body.getLinearVelocity().x > 0) {
+                    body.applyForceToCenter(-5000, 0, true);
+                }
             }
         }
 

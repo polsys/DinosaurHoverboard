@@ -18,6 +18,10 @@ public abstract class Obstacle extends GameObject {
 
     protected String getAssetFilename() { return null; }
 
+    public boolean isLethal() {
+        return true;
+    }
+
     @Override
     public Sprite getSprite() {
         return sprite;
@@ -30,6 +34,7 @@ public abstract class Obstacle extends GameObject {
         bodyDef.position.set(position);
 
         body = world.createBody(bodyDef);
+        body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
         Vector2 size = getSize();

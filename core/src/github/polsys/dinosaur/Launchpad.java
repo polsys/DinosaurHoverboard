@@ -17,4 +17,8 @@ public class Launchpad extends Obstacle {
         return new Vector2(8, 8);
     }
 
+    @Override
+    public boolean isLethal() {
+        return false;
+    }
 }
