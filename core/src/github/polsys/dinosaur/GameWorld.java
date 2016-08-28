@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -36,6 +34,10 @@ public class GameWorld {
     private List<GameObject> objects;
     private World world;
 
+    private Body worldBottom;
+    private Body worldTop;
+    private Body worldRight;
+
     public void create(AssetManager assetManager) {
         loadAssets(assetManager);
 
@@ -54,6 +56,7 @@ public class GameWorld {
         player.load(assetManager);
         player.addToWorld(world);
 
+        generateWorldBorder();
         generateLevel();
     }
 
@@ -105,6 +108,29 @@ public class GameWorld {
         assetManager.load("Launchpad.png", Texture.class);
         assetManager.load("Palm.png", Texture.class);
         assetManager.finishLoading();
+    }
+
+    private void generateWorldBorder() {
+        worldBottom = createStaticBox(0, 530, -1, -2);
+        worldTop = createStaticBox(0, 530, VIEWPORT_HEIGHT, VIEWPORT_HEIGHT + 1);
+        worldRight = createStaticBox(530, 531, 30, -1);
+    }
+
+    private Body createStaticBox(float left, float right, float top, float bottom) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(new Vector2((left + right) / 2, (top + bottom) / 2));
+
+        Body body = world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        Vector2 size = new Vector2(right - left, top - bottom);
+        shape.setAsBox(size.x / 2, size.y / 2);
+
+        body.createFixture(shape, 0);
+        shape.dispose();
+
+        return body;
     }
 
     private void generateLevel() {
