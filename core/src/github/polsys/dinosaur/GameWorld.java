@@ -133,6 +133,8 @@ public class GameWorld {
         assetManager.load("Anvils.png", Texture.class);
         assetManager.load("Background.png", Texture.class);
         assetManager.load("Box.png", Texture.class);
+        assetManager.load("Container.png", Texture.class);
+        assetManager.load("Container_Hanging.png", Texture.class);
         assetManager.load("Dinosaur.png", Texture.class);
         assetManager.load("Dinosaur_Jet.png", Texture.class);
         assetManager.load("Launchpad.png", Texture.class);
@@ -179,20 +181,26 @@ public class GameWorld {
             float x = 20 + i * 20 + (rand.nextFloat() * 4);
             Obstacle obstacle = null;
 
-            switch (rand.nextInt(4)) {
+            switch (rand.nextInt(7)) {
                 case 0:
-                    obstacle = new Launchpad();
-                    obstacle.position = new Vector2(x, 4);
+                    obstacle = new Container();
+                    obstacle.position = new Vector2(x, 2.5f);
                     break;
                 case 1:
+                case 2:
+                case 3:
+                    obstacle = new HangingContainer();
+                    obstacle.position = new Vector2(x, VIEWPORT_HEIGHT - 2.5f);
+                    break;
+                case 4:
                     obstacle = new AnvilStack();
                     obstacle.position = new Vector2(x, 3.5f);
                     break;
-                case 2:
+                case 5:
                     obstacle = new PalmTree();
                     obstacle.position = new Vector2(x, 5f);
                     break;
-                case 3:
+                case 6:
                     createBoxStack(x, rand);
                     continue;
             }
