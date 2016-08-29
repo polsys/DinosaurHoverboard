@@ -139,7 +139,7 @@ public class GameWorld {
 
         batch.end();
 
-        debugRenderer.render(world, camera.combined);
+        //debugRenderer.render(world, camera.combined);
     }
 
     public boolean shouldRestart() {
