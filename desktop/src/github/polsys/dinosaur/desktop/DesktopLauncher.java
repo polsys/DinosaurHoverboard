@@ -13,7 +13,7 @@ public class DesktopLauncher {
 		config.title = "Dinosaur Hoverboard";
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 60;
-        config.vSyncEnabled = true;
+        //config.vSyncEnabled = true;
 		new LwjglApplication(new DinosaurGame(), config);
 	}
 }
