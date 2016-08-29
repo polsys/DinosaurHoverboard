@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.Random;
@@ -16,10 +17,8 @@ import java.util.Random;
 class Dinosaur extends GameObject {
 
     private static final float DINOSAUR_SIZE = 5f;
-    private static final float DINOSAUR_BOUNDS_HALF_HEIGHT = DINOSAUR_SIZE / 2.4f;
-    private static final float DINOSAUR_BOUNDS_HALF_WIDTH = DINOSAUR_SIZE / 2.3f;
     private static final int DINOSAUR_MASS = 2000;
-    private static final float DINOSAUR_DENSITY = DINOSAUR_MASS / (DINOSAUR_SIZE * DINOSAUR_SIZE);
+    private static final float DINOSAUR_DENSITY = DINOSAUR_MASS / 20;
     private static final float MAX_VELOCITY_HORIZONTAL = 10f;
     private static final float MAX_VELOCITY_VERTICAL = 5f;
 
@@ -51,9 +50,12 @@ class Dinosaur extends GameObject {
         body.setUserData(this);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(DINOSAUR_BOUNDS_HALF_WIDTH, DINOSAUR_BOUNDS_HALF_HEIGHT);
-
+        shape.setAsBox(0.6f, 1.9f, new Vector2(1.7f, -0.15f), 0);
         body.createFixture(shape, DINOSAUR_DENSITY);
+
+        shape.setAsBox(2f, 1f, new Vector2(0, -1f), 0);
+        body.createFixture(shape, DINOSAUR_DENSITY);
+
         shape.dispose();
     }
 
