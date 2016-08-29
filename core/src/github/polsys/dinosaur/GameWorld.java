@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -23,6 +22,7 @@ public class GameWorld {
 
     private static final float VIEWPORT_WIDTH = 30;
     private static final float VIEWPORT_HEIGHT = 30 * (9f / 16);
+    private static final int WORLD_WIDTH = 560;
 
     private AssetManager assetManager;
     private SpriteBatch batch;
@@ -142,7 +142,7 @@ public class GameWorld {
     }
 
     public boolean isGameOver() {
-        return (!player.dead) && (player.position.x > 525);
+        return (!player.dead) && (player.position.x > WORLD_WIDTH - 5);
     }
 
     private void loadAssets(AssetManager assetManager) {
@@ -160,9 +160,9 @@ public class GameWorld {
     }
 
     private void generateWorldBorder() {
-        worldBottom = createStaticBox(0, 530, -1, -2);
-        worldTop = createStaticBox(0, 530, VIEWPORT_HEIGHT, VIEWPORT_HEIGHT + 1);
-        worldRight = createStaticBox(530, 531, 30, -1);
+        worldBottom = createStaticBox(0, WORLD_WIDTH, -1, -2);
+        worldTop = createStaticBox(0, WORLD_WIDTH, VIEWPORT_HEIGHT, VIEWPORT_HEIGHT + 1);
+        worldRight = createStaticBox(WORLD_WIDTH, WORLD_WIDTH + 1, 30, -1);
     }
 
     private Body createStaticBox(float left, float right, float top, float bottom) {
@@ -195,7 +195,7 @@ public class GameWorld {
 
         // Random obstacles
         for (int i = 0; i < 25; i++) {
-            float x = 20 + i * 20 + (rand.nextFloat() * 4);
+            float x = 30 + i * 20 + (rand.nextFloat() * 4);
             Obstacle obstacle = null;
 
             switch (rand.nextInt(7)) {
