@@ -40,10 +40,6 @@ public class GameWorld {
     private int deathTicks;
     private static final int DEATH_TICKS_UNTIL_RESTART = 300;
 
-    private Body worldBottom;
-    private Body worldTop;
-    private Body worldRight;
-
     public void create(AssetManager assetManager) {
         loadAssets(assetManager);
 
@@ -143,11 +139,7 @@ public class GameWorld {
     }
 
     public boolean shouldRestart() {
-        if (deathTicks > DEATH_TICKS_UNTIL_RESTART) {
-            return true;
-        }
-
-        return false;
+        return deathTicks > DEATH_TICKS_UNTIL_RESTART;
     }
 
     public boolean isGameOver() {
@@ -170,9 +162,9 @@ public class GameWorld {
     }
 
     private void generateWorldBorder() {
-        worldBottom = createStaticBox(0, WORLD_WIDTH, -1, -2);
-        worldTop = createStaticBox(0, WORLD_WIDTH, VIEWPORT_HEIGHT, VIEWPORT_HEIGHT + 1);
-        worldRight = createStaticBox(WORLD_WIDTH, WORLD_WIDTH + 1, 30, -1);
+        createStaticBox(0, WORLD_WIDTH, -1, -2);
+        createStaticBox(0, WORLD_WIDTH, VIEWPORT_HEIGHT, VIEWPORT_HEIGHT + 1);
+        createStaticBox(WORLD_WIDTH, WORLD_WIDTH + 1, 30, -1);
     }
 
     private Body createStaticBox(float left, float right, float top, float bottom) {
