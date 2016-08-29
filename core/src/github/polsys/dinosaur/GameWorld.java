@@ -141,6 +141,10 @@ public class GameWorld {
         return false;
     }
 
+    public boolean isGameOver() {
+        return (!player.dead) && (player.position.x > 525);
+    }
+
     private void loadAssets(AssetManager assetManager) {
         this.assetManager = assetManager;
         assetManager.load("Anvils.png", Texture.class);
