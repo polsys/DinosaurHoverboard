@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -31,6 +32,7 @@ public class GameWorld {
     private Box2DDebugRenderer debugRenderer;
 
     private Texture background;
+    private Sprite wormhole;
     private Dinosaur player;
     private List<GameObject> objects;
     private World world;
@@ -50,6 +52,9 @@ public class GameWorld {
         defaultProjectionMatrix = batch.getProjectionMatrix().cpy();
 
         background = assetManager.get("Background.png");
+        wormhole = new Sprite((Texture)assetManager.get("Wormhole.png"));
+        wormhole.setPosition(WORLD_WIDTH - 25, 0);
+        wormhole.setSize(30, VIEWPORT_HEIGHT);
 
         Box2D.init();
         world = new World(new Vector2(0, -9.8f), true);
@@ -107,7 +112,10 @@ public class GameWorld {
         }
 
         // Camera
-        camera.position.set(player.position.x + 8, VIEWPORT_HEIGHT / 2, 0);
+        float cameraX = player.position.x + 8;
+        if (cameraX > (WORLD_WIDTH - VIEWPORT_WIDTH / 2))
+            cameraX = WORLD_WIDTH - VIEWPORT_WIDTH / 2;
+        camera.position.set(cameraX, VIEWPORT_HEIGHT / 2, 0);
         camera.update();
     }
 
@@ -123,6 +131,7 @@ public class GameWorld {
 
         // Objects - automatic translation
         batch.setProjectionMatrix(camera.combined);
+        wormhole.draw(batch);
         player.draw(batch);
         for (GameObject object : objects) {
             object.draw(batch);
@@ -156,6 +165,7 @@ public class GameWorld {
         assetManager.load("Dinosaur_Jet.png", Texture.class);
         assetManager.load("Launchpad.png", Texture.class);
         assetManager.load("Palm.png", Texture.class);
+        assetManager.load("Wormhole.png", Texture.class);
         assetManager.finishLoading();
     }
 
