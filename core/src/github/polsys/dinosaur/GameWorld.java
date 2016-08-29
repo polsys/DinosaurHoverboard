@@ -198,7 +198,7 @@ public class GameWorld {
 
         // Starting position
         Launchpad launchpad = new Launchpad();
-        launchpad.position = new Vector2(4, 4);
+        launchpad.position = new Vector2(4, 3.5f);
         launchpad.load(assetManager);
         launchpad.addToWorld(world);
         objects.add(launchpad);
@@ -211,7 +211,7 @@ public class GameWorld {
             switch (rand.nextInt(7)) {
                 case 0:
                     obstacle = new Container();
-                    obstacle.position = new Vector2(x, 2.5f);
+                    obstacle.position = new Vector2(x, 2.4f);
                     break;
                 case 1:
                 case 2:
