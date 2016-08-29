@@ -16,18 +16,18 @@ import java.util.Random;
 class Dinosaur extends GameObject {
 
     private static final float DINOSAUR_SIZE = 5f;
-    public static final float DINOSAUR_BOUNDS_HALF_HEIGHT = DINOSAUR_SIZE / 2.4f;
-    public static final float DINOSAUR_BOUNDS_HALF_WIDTH = DINOSAUR_SIZE / 2.3f;
-    public static final int DINOSAUR_MASS = 2000;
-    public static final float DINOSAUR_DENSITY = DINOSAUR_MASS / (DINOSAUR_SIZE * DINOSAUR_SIZE);
-    public static final float MAX_VELOCITY_HORIZONTAL = 10f;
-    public static final float MAX_VELOCITY_VERTICAL = 5f;
+    private static final float DINOSAUR_BOUNDS_HALF_HEIGHT = DINOSAUR_SIZE / 2.4f;
+    private static final float DINOSAUR_BOUNDS_HALF_WIDTH = DINOSAUR_SIZE / 2.3f;
+    private static final int DINOSAUR_MASS = 2000;
+    private static final float DINOSAUR_DENSITY = DINOSAUR_MASS / (DINOSAUR_SIZE * DINOSAUR_SIZE);
+    private static final float MAX_VELOCITY_HORIZONTAL = 10f;
+    private static final float MAX_VELOCITY_VERTICAL = 5f;
 
     private Sprite idleSprite;
     private Sprite jetSprite;
     private boolean engineOn;
     private boolean shouldDieNextUpdate;
-    private boolean dead;
+    public boolean dead;
 
     private Body body;
 

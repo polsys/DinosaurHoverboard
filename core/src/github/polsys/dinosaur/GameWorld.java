@@ -35,6 +35,9 @@ public class GameWorld {
     private List<GameObject> objects;
     private World world;
 
+    private int deathTicks;
+    private static final int DEATH_TICKS_UNTIL_RESTART = 300;
+
     private Body worldBottom;
     private Body worldTop;
     private Body worldRight;
@@ -88,7 +91,7 @@ public class GameWorld {
 
     public void dispose() {
         batch.dispose();
-        background.dispose();
+        world.dispose();
     }
 
     public void update() {
@@ -97,6 +100,8 @@ public class GameWorld {
 
         // Player and objects
         player.update();
+        if (player.dead)
+            deathTicks++;
         for (GameObject object : objects) {
             object.update();
         }
@@ -126,6 +131,14 @@ public class GameWorld {
         batch.end();
 
         debugRenderer.render(world, camera.combined);
+    }
+
+    public boolean shouldRestart() {
+        if (deathTicks > DEATH_TICKS_UNTIL_RESTART) {
+            return true;
+        }
+
+        return false;
     }
 
     private void loadAssets(AssetManager assetManager) {

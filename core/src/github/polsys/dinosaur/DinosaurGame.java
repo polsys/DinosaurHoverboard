@@ -18,6 +18,12 @@ public class DinosaurGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+	    if (world.shouldRestart()) {
+	        world.dispose();
+            world = new GameWorld();
+            world.create(assetManager);
+        }
+
 	    world.update();
         world.render();
 	}
