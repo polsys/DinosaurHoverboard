@@ -103,12 +103,12 @@ class Dinosaur extends GameObject {
 
                 // Upwards thruster
                 if (Gdx.input.isKeyPressed(Input.Keys.W) && (body.getLinearVelocity().y < MAX_VELOCITY_VERTICAL)) {
-                    body.applyForceToCenter(0, 20000, true);
+                    body.applyForceToCenter(0, 30000, true);
                 }
 
                 // Downwards thruster
                 if (Gdx.input.isKeyPressed(Input.Keys.S) && (body.getLinearVelocity().y > -MAX_VELOCITY_VERTICAL)) {
-                    body.applyForceToCenter(0, -20000, true);
+                    body.applyForceToCenter(0, -30000, true);
                 }
 
             } else {
